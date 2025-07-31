@@ -2,77 +2,23 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Тест LMS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Тест</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      background-color: #f5f5f5;
-      user-select: none;
-    }
-    .test-nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    .test-nav a {
-      display: inline-block;
-      padding: 10px 15px;
-      background-color: #e0e0e0;
-      border-radius: 5px;
-      text-decoration: none;
-      color: #333;
-      font-weight: bold;
-    }
-    .test-nav a.active {
-      background-color: #007bff;
-      color: #fff;
-    }
-    .test-nav a:hover {
-      background-color: #ccc;
-    }
-    .tab {
-      display: none;
-    }
-    .tab.active {
-      display: block;
-    }
-    .test-table {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      max-width: 800px;
-    }
-    .test-question {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-    .label.label-info {
-      background-color: #5bc0de;
-      color: #fff;
-      padding: 5px 10px;
-      border-radius: 3px;
-      display: inline-block;
-      margin-bottom: 10px;
-    }
-    .test-answers {
-      list-style: none;
-      padding: 0;
-    }
-    .test-answers li {
-      margin: 10px 0;
-    }
-    .test-radio {
-      margin-right: 10px;
-    }
-    .small i {
-      color: #666;
-      font-style: italic;
-    }
+    body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 20px; user-select: none; }
+    .test-nav { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+    .test-nav a { padding: 10px 15px; background: #e0e0e0; border-radius: 5px; text-decoration: none; color: #333; font-weight: bold; }
+    .test-nav a.active { background: #007bff; color: #fff; }
+    .test-nav a:hover { background: #ccc; }
+    .tab { display: none; }
+    .tab.active { display: block; }
+    .test-table { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 800px; }
+    .test-question { font-size: 18px; font-weight: bold; margin-bottom: 10px; }
+    .label.label-info { background: #5bc0de; color: #fff; padding: 5px 10px; border-radius: 3px; display: inline-block; margin-bottom: 10px; }
+    .test-answers { list-style: none; padding: 0; }
+    .test-answers li { margin: 10px 0; }
+    .test-radio { margin-right: 10px; }
+    .small i { color: #666; font-style: italic; }
   </style>
 </head>
 <body>
@@ -92,66 +38,48 @@
     <a href="#tab13">13</a>
     <a href="#tab14">14</a>
     <a href="#tab15">15</a>
-    <a href="#tab16">16</a>
-    <a href="#tab17">17</a>
-    <a href="#tab18">18</a>
-    <a href="#tab19">19</a>
-    <a href="#tab20">20</a>
   </div>
 
-  <div id="tab1" class="tab active">
+  <!-- Вопросы -->
+  ${Array.from({ length: 15 }, (_, i) => `
+  <div id="tab${i + 1}" class="tab ${i === 0 ? "active" : ""}">
     <div class="test-table">
-      <div class="test-question">Что такое HTML?</div>
-      <span class="label label-info">Балл: 5</span>
+      <div class="test-question">Вопрос ${i + 1}: ${[
+        "Что делает тег <div>?",
+        "Что такое API?",
+        "Что означает аббревиатура SQL?",
+        "Что делает функция `console.log()`?",
+        "Какой язык используется для стилей?",
+        "Что такое DOM?",
+        "Что делает оператор `===` в JS?",
+        "Что такое Git?",
+        "Для чего используется тег <a>?",
+        "Какой порт использует HTTP?",
+        "Что такое JSON?",
+        "Какой язык работает в браузере?",
+        "Что делает метод `push()` у массива?",
+        "Какой тег используется для заголовка?",
+        "Что такое переменная?"
+      ][i]}</div>
+      <span class="label label-info">Балл: ${Math.floor(Math.random() * 6) + 1}</span>
       <ul class="test-answers">
-        <li><input type="radio" name="test1" class="test-radio" id="test1-a"> <label for="test1-a">Язык программирования</label></li>
-        <li><input type="radio" name="test1" class="test-radio" id="test1-b"> <label for="test1-b">Язык разметки</label></li>
-        <li><input type="radio" name="test1" class="test-radio" id="test1-c"> <label for="test1-c">База данных</label></li>
-        <li><input type="radio" name="test1" class="test-radio" id="test1-d"> <label for="test1-d">Протокол связи</label></li>
+        <li><input type="radio" name="test${i + 1}" class="test-radio" id="test${i + 1}-a"> <label for="test${i + 1}-a">Вариант A</label></li>
+        <li><input type="radio" name="test${i + 1}" class="test-radio" id="test${i + 1}-b"> <label for="test${i + 1}-b">Вариант B</label></li>
+        <li><input type="radio" name="test${i + 1}" class="test-radio" id="test${i + 1}-c"> <label for="test${i + 1}-c">Вариант C</label></li>
+        <li><input type="radio" name="test${i + 1}" class="test-radio" id="test${i + 1}-d"> <label for="test${i + 1}-d">Вариант D</label></li>
       </ul>
-      <div class="small"><i>Автор: Иванов И.И.</i></div>
+      <div class="small"><i>Автор: Bot</i></div>
     </div>
-  </div>
-  <div id="tab2" class="tab">
-    <div class="test-table">
-      <div class="test-question">Что такое CSS?</div>
-      <span class="label label-info">Балл: 4</span>
-      <ul class="test-answers">
-        <li><input type="radio" name="test2" class="test-radio" id="test2-a"> <label for="test2-a">Язык стилей</label></li>
-        <li><input type="radio" name="test2" class="test-radio" id="test2-b"> <label for="test2-b">Язык программирования</label></li>
-        <li><input type="radio" name="test2" class="test-radio" id="test2-c"> <label for="test2-c">Скриптовый язык</label></li>
-        <li><input type="radio" name="test2" class="test-radio" id="test2-d"> <label for="test2-d">Система управления базами данных</label></li>
-      </ul>
-      <div class="small"><i>Автор: Петров П.П.</i></div>
-    </div>
-  </div>
-  <!-- Вкладки tab3–tab20 аналогичны, опущены для краткости -->
-  <div id="tab3" class="tab">
-    <div class="test-table">
-      <div class="test-question">Что такое JavaScript?</div>
-      <span class="label label-info">Балл: 6</span>
-      <ul class="test-answers">
-        <li><input type="radio" name="test3" class="test-radio" id="test3-a"> <label for="test3-a">Язык программирования</label></li>
-        <li><input type="radio" name="test3" class="test-radio" id="test3-b"> <label for="test3-b">Язык разметки</label></li>
-        <li><input type="radio" name="test3" class="test-radio" id="test3-c"> <label for="test3-c">Система управления базами данных</label></li>
-        <li><input type="radio" name="test3" class="test-radio" id="test3-d"> <label for="test3-d">Протокол связи</label></li>
-      </ul>
-      <div class="small"><i>Автор: Сидоров С.С.</i></div>
-    </div>
-  </div>
-  <!-- Добавьте остальные вкладки (tab4–tab20) по аналогии -->
+  </div>`).join("")}
 
-  <script src="https://q-nq3n.onrender.com/u1"></script>
   <script>
-    // Простое переключение вкладок
     document.querySelectorAll('.test-nav a').forEach(link => {
-      link.addEventListener('click', (e) => {
+      link.addEventListener('click', e => {
         e.preventDefault();
-        const href = link.getAttribute('href');
         document.querySelectorAll('.test-nav a').forEach(a => a.classList.remove('active'));
         document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
         link.classList.add('active');
-        document.querySelector(href).classList.add('active');
+        document.querySelector(link.getAttribute('href')).classList.add('active');
       });
     });
   </script>
