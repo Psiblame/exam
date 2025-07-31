@@ -2,14 +2,12 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Тест</title>
   <style>
     body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 20px; user-select: none; }
     .test-nav { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
     .test-nav a { padding: 10px 15px; background: #e0e0e0; border-radius: 5px; text-decoration: none; color: #333; font-weight: bold; }
     .test-nav a.active { background: #007bff; color: #fff; }
-    .test-nav a:hover { background: #ccc; }
     .tab { display: none; }
     .tab.active { display: block; }
     .test-table { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 800px; }
@@ -23,99 +21,73 @@
 </head>
 <body>
 
-<div class="test-nav">
-  <!-- Вкладки -->
-  ${[...Array(15)].map((_, i) => `<a href="#tab${i + 1}" ${i === 0 ? 'class="active"' : ''}>${i + 1}</a>`).join("\n  ")}
-</div>
+  <div class="test-nav" id="nav"></div>
+  <div id="tabs"></div>
 
-<!-- Вопросы -->
-${[
-  {
-    question: "Что делает тег <div>?",
-    options: ["Создает блочный элемент", "Создает строку", "Подключает CSS", "Удаляет элемент"],
-  },
-  {
-    question: "Что такое CSS?",
-    options: ["Язык стилей", "Язык разметки", "Браузер", "Протокол"],
-  },
-  {
-    question: "Для чего используется тег <a>?",
-    options: ["Создание ссылки", "Создание кнопки", "Вывод текста", "Форма входа"],
-  },
-  {
-    question: "Что такое JavaScript?",
-    options: ["Язык программирования", "Язык разметки", "CSS-библиотека", "Фреймворк"],
-  },
-  {
-    question: "Что означает аббревиатура HTML?",
-    options: ["HyperText Markup Language", "High Text Machine Language", "Hyper Tool Multi Language", "None of the above"],
-  },
-  {
-    question: "Что делает метод alert() в JavaScript?",
-    options: ["Показывает всплывающее окно", "Добавляет элемент", "Скрывает текст", "Запускает цикл"],
-  },
-  {
-    question: "Какой атрибут отвечает за путь к изображению в <img>?",
-    options: ["src", "href", "alt", "link"],
-  },
-  {
-    question: "Что делает оператор === в JavaScript?",
-    options: ["Сравнивает по значению и типу", "Присваивает значение", "Увеличивает число", "Сравнивает только по значению"],
-  },
-  {
-    question: "Что такое DOM?",
-    options: ["Объектная модель документа", "Тип шрифта", "Стилизация текста", "Расширение браузера"],
-  },
-  {
-    question: "Что делает console.log() в JavaScript?",
-    options: ["Выводит данные в консоль", "Удаляет элемент", "Останавливает скрипт", "Запускает таймер"],
-  },
-  {
-    question: "Какой язык используют для работы с базами данных?",
-    options: ["SQL", "HTML", "CSS", "XML"],
-  },
-  {
-    question: "Какой тег используется для заголовка первого уровня?",
-    options: ["<h1>", "<header>", "<title>", "<p>"],
-  },
-  {
-    question: "Что такое переменная?",
-    options: ["Область хранения данных", "Тип функции", "Ошибка", "Элемент формы"],
-  },
-  {
-    question: "Какой порт по умолчанию использует HTTP?",
-    options: ["80", "443", "21", "3306"],
-  },
-  {
-    question: "Что делает метод push() у массива?",
-    options: ["Добавляет элемент в конец", "Удаляет элемент", "Сортирует массив", "Очищает массив"],
-  }
-].map((item, i) => `
-<div id="tab${i + 1}" class="tab ${i === 0 ? "active" : ""}">
-  <div class="test-table">
-    <div class="test-question">Вопрос ${i + 1}: ${item.question}</div>
-    <span class="label label-info">Балл: ${Math.floor(Math.random() * 5) + 1}</span>
-    <ul class="test-answers">
-      ${item.options.map((opt, j) => `
-        <li><input type="radio" name="q${i + 1}" id="q${i + 1}-${j}"> <label for="q${i + 1}-${j}">${opt}</label></li>
-      `).join("")}
-    </ul>
-    <div class="small"><i>Автор: Bot</i></div>
-  </div>
-</div>
-`).join("")}
+  <script>
+    const questions = [
+      { question: "Что делает тег <div>?", options: ["Создает блочный элемент", "Создает строку", "Подключает CSS", "Удаляет элемент"] },
+      { question: "Что такое CSS?", options: ["Язык стилей", "Язык разметки", "Браузер", "Протокол"] },
+      { question: "Что такое JavaScript?", options: ["Язык программирования", "Язык разметки", "CSS-библиотека", "Фреймворк"] },
+      { question: "Что означает аббревиатура HTML?", options: ["HyperText Markup Language", "High Text Machine Language", "Hyper Tool Multi Language", "None of the above"] },
+      { question: "Что делает метод alert() в JavaScript?", options: ["Показывает всплывающее окно", "Добавляет элемент", "Скрывает текст", "Запускает цикл"] },
+      { question: "Какой атрибут отвечает за путь к изображению в <img>?", options: ["src", "href", "alt", "link"] },
+      { question: "Что делает оператор === в JavaScript?", options: ["Сравнивает по значению и типу", "Присваивает значение", "Увеличивает число", "Сравнивает только по значению"] },
+      { question: "Что такое DOM?", options: ["Объектная модель документа", "Тип шрифта", "Стилизация текста", "Расширение браузера"] },
+      { question: "Что делает console.log() в JavaScript?", options: ["Выводит данные в консоль", "Удаляет элемент", "Останавливает скрипт", "Запускает таймер"] },
+      { question: "Какой язык используют для работы с базами данных?", options: ["SQL", "HTML", "CSS", "XML"] },
+      { question: "Какой тег используется для заголовка первого уровня?", options: ["<h1>", "<p>", "<div>", "<title>"] },
+      { question: "Что такое API?", options: ["Интерфейс взаимодействия", "Программа", "Сервер", "Плагин"] },
+      { question: "Какой порт по умолчанию у HTTP?", options: ["80", "443", "21", "8080"] },
+      { question: "Что делает метод push() у массива?", options: ["Добавляет элемент в конец", "Удаляет первый элемент", "Сортирует массив", "Удаляет дубликаты"] },
+      { question: "Какой язык выполняется в браузере?", options: ["JavaScript", "Python", "Java", "PHP"] }
+    ];
 
-<script>
-  document.querySelectorAll('.test-nav a').forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      document.querySelectorAll('.test-nav a').forEach(a => a.classList.remove('active'));
-      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-      link.classList.add('active');
-      document.querySelector(link.getAttribute('href')).classList.add('active');
+    const nav = document.getElementById("nav");
+    const tabs = document.getElementById("tabs");
+
+    questions.forEach((q, i) => {
+      const num = i + 1;
+
+      // Навигация
+      const a = document.createElement("a");
+      a.href = `#tab${num}`;
+      a.textContent = num;
+      if (i === 0) a.classList.add("active");
+      nav.appendChild(a);
+
+      // Таб с вопросом
+      const tab = document.createElement("div");
+      tab.className = "tab" + (i === 0 ? " active" : "");
+      tab.id = `tab${num}`;
+      tab.innerHTML = `
+        <div class="test-table">
+          <div class="test-question">Вопрос ${num}: ${q.question}</div>
+          <span class="label label-info">Балл: ${Math.floor(Math.random() * 6) + 1}</span>
+          <ul class="test-answers">
+            ${q.options.map((opt, j) => `
+              <li>
+                <input type="radio" name="q${num}" id="q${num}-${j}" class="test-radio">
+                <label for="q${num}-${j}">${opt}</label>
+              </li>
+            `).join("")}
+          </ul>
+          <div class="small"><i>Автор: Bot</i></div>
+        </div>
+      `;
+      tabs.appendChild(tab);
     });
-  });
-</script>
 
+    // Слушатели на вкладки
+    nav.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", e => {
+        e.preventDefault();
+        nav.querySelectorAll("a").forEach(a => a.classList.remove("active"));
+        tabs.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
+        link.classList.add("active");
+        document.querySelector(link.getAttribute("href")).classList.add("active");
+      });
+    });
+  </script>
 </body>
 </html>
