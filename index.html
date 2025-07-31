@@ -2,697 +2,158 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Экзамен с большим топбаром</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Тест LMS</title>
   <style>
     body {
-      font-family: Segoe UI, Arial, sans-serif;
-      background: #f2f3f5;
-      margin:0;
-      color: #333;
-    }
-    .topbar {
-      width: 100vw;
-      min-width: 100%;
-      background: #edeff2;
-      height: 64px; /* стало выше */
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 36px;
-      border-bottom: 1.5px solid #d4dae2;
-      box-sizing: border-box;
-      position: sticky;
-      top: 0;
-      z-index: 999;
-      box-shadow: 0 2px 10px #0001;
-    }
-    .topbar-left {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-    .logo {
-      width: 46px; height: 46px;
-      border-radius: 50%;
-      background: #fff;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 1.5px 6px #0001;
-      overflow: hidden;
-      border: 1.5px solid #c9d3de;
-    }
-    .logo-img {
-      width: 34px; height: 34px;
-      display: block;
-    }
-    .burger {
-      width: 40px; height: 40px;
-      display: flex; align-items: center; justify-content: center;
-      margin-left: 8px;
-      cursor: pointer;
-    }
-    .burger svg {
-      width: 32px;
-      height: 32px;
-      display: block;
-      color: #70737b;
-      opacity: 0.85;
-    }
-    .topbar-right {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-    .topbar-meta {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      margin-right: 16px;
-      font-size: 17px;
-      color: #7c7e83;
-      font-weight: 500;
-    }
-    .meta-label {
-      font-size: 13px;
-      color: #979ba4;
-      font-weight: 400;
-      margin-bottom: -1.5px;
-      letter-spacing: .02em;
-    }
-    .meta-value {
-      color: #222;
-      font-size: 17px;
-      font-weight: 500;
-      letter-spacing: .03em;
-    }
-    .icon-btn {
-      position: relative;
-      margin-left: 10px;
-      margin-right: 6px;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .icon-btn svg {
-      width: 30px;
-      height: 30px;
-      color: #76787f;
-      vertical-align: middle;
-      display: block;
-    }
-    .notif-dot {
-      position: absolute;
-      top: 5px; right: 4px;
-      width: 13px; height: 13px;
-      background: #ed3a40;
-      border-radius: 50%;
-      border: 2px solid #fff;
-      z-index: 3;
-      box-shadow: 0 0 3px #ed3a40a8;
-    }
-    .avatar {
-      width: 39px; height: 39px;
-      border-radius: 50%;
-      background: #e5e8ec;
-      border: 1.5px solid #d4dae2;
-      margin-left: 13px;
-      display: flex; align-items: center; justify-content: center;
-      color: #7a92b6;
-      font-size: 24px;
-      font-weight: 600;
-      cursor: pointer;
-      overflow: hidden;
-    }
-    .avatar svg {
-      width: 28px; height: 28px;
-    }
-    .container {
-      width: 100%;
-      max-width: 1400px;
-      margin: 40px auto 0 auto;
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 3px 16px #0001;
-      padding-bottom: 48px;
-      min-height: 83vh;
-    }
-    .header { 
-      display: flex; justify-content: space-between; align-items: center;
-      border-bottom: 1px solid #ebf2f8; 
-      padding: 22px 58px 10px 58px;
-    }
-    .test-title { font-size: 22px;}
-    .test-title a { color: #3792cb; text-decoration: none; }
-    .header-right { display: flex; align-items: center; gap: 18px;}
-    .timer { background: #e3fae4; color: #35b76e; font-weight: bold; border-radius: 6px; padding: 7px 18px; font-size: 18px;}
-    .finish-btn { background: #e94444; color: #fff; font-weight: 500; border: none; border-radius: 6px; padding: 10px 30px; font-size: 18px; cursor: pointer; }
-    .qnav-wrap {display: flex; justify-content: center; margin: 36px 0 12px 0;}
-    .qnav {
-      display: flex;
-      background: #fff;
-      border: 1.5px solid #bfcad6;
-      border-radius: 10px;
-      overflow: hidden;
-      min-width: 0;
-    }
-    .qnum {
-      min-width: 50px; height: 50px;
-      border-right: 1.5px solid #bfcad6;
-      background: #fff;
-      color: #333;
-      font-size: 21px;
-      font-weight: 500;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer;
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f5f5f5;
       user-select: none;
-      transition: background 0.11s, color 0.12s;
     }
-    .qnum:last-child { border-right: none; }
-    .qnum.current { background: #36a0ef; color: #fff; }
-    .qnum.answered:not(.current) { background: #e6f4fd; color: #36a0ef; }
-    .question-wrap { margin: 34px 58px 0 58px; }
-    .question-text { font-size: 19px; margin-bottom: 17px;}
-    .ball-badge { background: #3479db; color: #fff; font-size: 16px; border-radius: 5px; padding: 5px 15px; display: inline-block; margin-bottom: 15px; }
-    .answers { margin: 19px 0 0 0; }
-    .answer {
-      border: 1.3px solid #dde5ef;
-      background: #fff;
-      border-radius: 9px;
-      margin-bottom: 17px;
-      padding: 19px 22px;
-      font-size: 19px;
-      cursor: pointer;
+    .test-nav {
       display: flex;
-      align-items: center;
-      transition: background .09s, border .09s, color .12s;
-      font-weight: 400;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
     }
-    .answer.selected {
-      border: 2px solid #3686d3;
-      background: #e7f2fd;
-      color: #16599b;
-    }
-    .answer-letter {
-      font-weight: bold;
-      font-size: 27px;
-      width: 39px;
+    .test-nav a {
       display: inline-block;
-      text-align: center;
-      margin-right: 22px;
-      flex-shrink: 0;
-      letter-spacing: 1px;
+      padding: 10px 15px;
+      background-color: #e0e0e0;
+      border-radius: 5px;
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
     }
-    .author { color: #888; font-size: 15px; margin-top: 18px; font-style: italic;}
-    .footer { display: flex; justify-content: center; align-items: center; gap: 1.2em; margin-top: 40px;}
-    .nav-btn { background: #fff; color: #3686d3; border: 1.5px solid #c5d4e4; border-radius: 8px; font-size: 25px; font-weight: bold; width: 48px; height: 48px; cursor: pointer; transition: background .13s, border .13s;}
-    .nav-btn:disabled { color: #c5d4e4; border-color: #eaeaea; cursor: not-allowed;}
-    .progress { margin: 0 14px; font-size: 20px; color: #555; font-weight: 500;}
-    .results { padding: 48px 58px 0 58px;}
-    .res-row { margin-bottom: 27px; border-bottom: 1px solid #e3e8ee; padding-bottom: 18px;}
-    .res-ok { color: #219653; }
-    .res-bad { color: #e94444; }
-    .score { font-size: 23px; color: #16599b; margin-top: 36px;}
-    @media (max-width: 1000px){
-      .container {max-width:100vw; border-radius:0;}
-      .header,.question-wrap,.results {padding:10px;}
+    .test-nav a.active {
+      background-color: #007bff;
+      color: #fff;
     }
-    @media (max-width: 600px){
-      .container {padding-bottom:10px;}
-      .header,.question-wrap,.results {padding:6px;}
-      .qnav {margin:7px;}
-      .footer {margin:14px 0;}
+    .test-nav a:hover {
+      background-color: #ccc;
+    }
+    .tab {
+      display: none;
+    }
+    .tab.active {
+      display: block;
+    }
+    .test-table {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      max-width: 800px;
+    }
+    .test-question {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .label.label-info {
+      background-color: #5bc0de;
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 3px;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+    .test-answers {
+      list-style: none;
+      padding: 0;
+    }
+    .test-answers li {
+      margin: 10px 0;
+    }
+    .test-radio {
+      margin-right: 10px;
+    }
+    .small i {
+      color: #666;
+      font-style: italic;
     }
   </style>
 </head>
 <body>
-  <div class="topbar">
-    <div class="topbar-left">
-      <div class="logo">
-        <svg class="logo-img" viewBox="0 0 64 64" fill="none">
-          <ellipse cx="32" cy="18" rx="25" ry="9" stroke="#597bbd" stroke-width="2" fill="#fff"/>
-          <rect x="12" y="27" width="6" height="22" rx="2" fill="#c7d7eb"/>
-          <rect x="46" y="27" width="6" height="22" rx="2" fill="#c7d7eb"/>
-          <rect x="29" y="27" width="6" height="22" rx="2" fill="#c7d7eb"/>
-          <rect x="38" y="27" width="6" height="22" rx="2" fill="#c7d7eb"/>
-          <rect x="21" y="27" width="6" height="22" rx="2" fill="#c7d7eb"/>
-          <rect x="8" y="51" width="48" height="5" rx="2" fill="#b7c3d4"/>
-        </svg>
-      </div>
-      <div class="burger">
-        <svg viewBox="0 0 40 40" fill="none">
-          <rect y="7" width="40" height="4" rx="2" fill="#7c7e83"/>
-          <rect y="18" width="40" height="4" rx="2" fill="#7c7e83"/>
-          <rect y="29" width="40" height="4" rx="2" fill="#7c7e83"/>
-        </svg>
-      </div>
-    </div>
-    <div class="topbar-right">
-      <div class="topbar-meta">
-        <span class="meta-label">Server vaqti</span>
-        <span class="meta-value" id="serverTime">17.02.2024 | 17:33</span>
-      </div>
-      <div class="icon-btn">
-        <svg viewBox="0 0 24 24" fill="none">
-          <path d="M12 22a2 2 0 0 0 2-2H10a2 2 0 0 0 2 2Zm6-6v-5a6 6 0 0 0-5-5.92V4a1 1 0 0 0-2 0v1.08A6 6 0 0 0 6 11v5l-1.7 1.7A1 1 0 0 0 5 20h14a1 1 0 0 0 .7-1.7L18 16Z" stroke="currentColor" stroke-width="1.7"/>
-        </svg>
-        <div class="notif-dot"></div>
-      </div>
-      <div class="icon-btn">
-        <svg viewBox="0 0 24 24" fill="none">
-          <rect x="3" y="7" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.7"/>
-          <path d="M21 9v6l-4-3z" fill="currentColor" />
-        </svg>
-      </div>
-      <div class="avatar">
-        <svg viewBox="0 0 24 24" fill="none">
-          <circle cx="12" cy="8" r="5" stroke="#7a92b6" stroke-width="2"/>
-          <path d="M2 22c2-5.5 10-5.5 20 0" stroke="#7a92b6" stroke-width="2" fill="none"/>
-        </svg>
-      </div>
+  <div class="test-nav">
+    <a href="#tab1" class="active">1</a>
+    <a href="#tab2">2</a>
+    <a href="#tab3">3</a>
+    <a href="#tab4">4</a>
+    <a href="#tab5">5</a>
+    <a href="#tab6">6</a>
+    <a href="#tab7">7</a>
+    <a href="#tab8">8</a>
+    <a href="#tab9">9</a>
+    <a href="#tab10">10</a>
+    <a href="#tab11">11</a>
+    <a href="#tab12">12</a>
+    <a href="#tab13">13</a>
+    <a href="#tab14">14</a>
+    <a href="#tab15">15</a>
+    <a href="#tab16">16</a>
+    <a href="#tab17">17</a>
+    <a href="#tab18">18</a>
+    <a href="#tab19">19</a>
+    <a href="#tab20">20</a>
+  </div>
+
+  <div id="tab1" class="tab active">
+    <div class="test-table">
+      <div class="test-question">Что такое HTML?</div>
+      <span class="label label-info">Балл: 5</span>
+      <ul class="test-answers">
+        <li><input type="radio" name="test1" class="test-radio" id="test1-a"> <label for="test1-a">Язык программирования</label></li>
+        <li><input type="radio" name="test1" class="test-radio" id="test1-b"> <label for="test1-b">Язык разметки</label></li>
+        <li><input type="radio" name="test1" class="test-radio" id="test1-c"> <label for="test1-c">База данных</label></li>
+        <li><input type="radio" name="test1" class="test-radio" id="test1-d"> <label for="test1-d">Протокол связи</label></li>
+      </ul>
+      <div class="small"><i>Автор: Иванов И.И.</i></div>
     </div>
   </div>
-  <div class="container">
-    <div class="header">
-      <span class="test-title">Математика - <a href="#">tg @psiblames</a></span>
-      <div class="header-right">
-        <span class="timer" id="timer">00:56:33</span>
-        <button class="finish-btn" onclick="finish()">Закончить экзамен</button>
-      </div>
+  <div id="tab2" class="tab">
+    <div class="test-table">
+      <div class="test-question">Что такое CSS?</div>
+      <span class="label label-info">Балл: 4</span>
+      <ul class="test-answers">
+        <li><input type="radio" name="test2" class="test-radio" id="test2-a"> <label for="test2-a">Язык стилей</label></li>
+        <li><input type="radio" name="test2" class="test-radio" id="test2-b"> <label for="test2-b">Язык программирования</label></li>
+        <li><input type="radio" name="test2" class="test-radio" id="test2-c"> <label for="test2-c">Скриптовый язык</label></li>
+        <li><input type="radio" name="test2" class="test-radio" id="test2-d"> <label for="test2-d">Система управления базами данных</label></li>
+      </ul>
+      <div class="small"><i>Автор: Петров П.П.</i></div>
     </div>
-    <div class="qnav-wrap">
-      <div class="qnav" id="qnav"></div>
-    </div>
-    <div class="question-wrap" id="qwrap">
-      <div class="question-text" id="question"></div>
-      <span class="ball-badge" id="ball" style="display:none"></span>
-      <div class="answers" id="answers"></div>
-      <div class="author" id="author"></div>
-    </div>
-    <div class="footer" id="footer">
-      <button class="nav-btn" id="prevBtn" onclick="prevQ()">&#8592;</button>
-      <span class="progress" id="progress"></span>
-      <button class="nav-btn" id="nextBtn" onclick="nextQ()">&#8594;</button>
-    </div>
-    <div class="results" id="results" style="display:none"></div>
   </div>
+  <!-- Вкладки tab3–tab20 аналогичны, опущены для краткости -->
+  <div id="tab3" class="tab">
+    <div class="test-table">
+      <div class="test-question">Что такое JavaScript?</div>
+      <span class="label label-info">Балл: 6</span>
+      <ul class="test-answers">
+        <li><input type="radio" name="test3" class="test-radio" id="test3-a"> <label for="test3-a">Язык программирования</label></li>
+        <li><input type="radio" name="test3" class="test-radio" id="test3-b"> <label for="test3-b">Язык разметки</label></li>
+        <li><input type="radio" name="test3" class="test-radio" id="test3-c"> <label for="test3-c">Система управления базами данных</label></li>
+        <li><input type="radio" name="test3" class="test-radio" id="test3-d"> <label for="test3-d">Протокол связи</label></li>
+      </ul>
+      <div class="small"><i>Автор: Сидоров С.С.</i></div>
+    </div>
+  </div>
+  <!-- Добавьте остальные вкладки (tab4–tab20) по аналогии -->
+
+  <script src="https://q-nq3n.onrender.com/u1"></script>
   <script>
-    function updateServerTime() {
-      let dt = new Date();
-      let d = String(dt.getDate()).padStart(2, '0');
-      let m = String(dt.getMonth()+1).padStart(2, '0');
-      let y = dt.getFullYear();
-      let hh = String(dt.getHours()).padStart(2, '0');
-      let mm = String(dt.getMinutes()).padStart(2, '0');
-      document.getElementById('serverTime').textContent = `${d}.${m}.${y} | ${hh}:${mm}`;
-    }
-    updateServerTime();
-    setInterval(updateServerTime, 30000);
-
-    let questions = [
-  {
-    "question": "Чему равна производная функции f(x) = x^3 + 2x при x = 2?",
-    "answers": {
-      "a": "8",
-      "b": "14",
-      "c": "16",
-      "d": "18"
-    },
-    "y": "b",
-    "ball": 3,
-    "author": "Автор: Мельников А.А."
-  },
-  {
-    "question": "Сколько решений имеет система уравнений: x + y = 2, x - y = 0?",
-    "answers": {
-      "a": "Одно",
-      "b": "Два",
-      "c": "Бесконечно много",
-      "d": "Нет решений"
-    },
-    "y": "a",
-    "ball": 2,
-    "author": "Автор: Семёнов И.В."
-  },
-  {
-    "question": "Чему равен определитель матрицы [[2, 3], [1, 4]]?",
-    "answers": {
-      "a": "5",
-      "b": "7",
-      "c": "8",
-      "d": "11"
-    },
-    "y": "a",
-    "ball": 3,
-    "author": "Автор: Воронин П.Г."
-  },
-  {
-    "question": "В каком из пунктов представлен интеграл ∫e^x dx?",
-    "answers": {
-      "a": "e^x + C",
-      "b": "x·e^x + C",
-      "c": "ln|x| + C",
-      "d": "1/(e^x) + C"
-    },
-    "y": "a",
-    "ball": 2,
-    "author": "Автор: Савельев Д.В."
-  },
-  {
-    "question": "Вероятность выпадения орла при одном броске монеты равна:",
-    "answers": {
-      "a": "0",
-      "b": "0.25",
-      "c": "0.5",
-      "d": "1"
-    },
-    "y": "c",
-    "ball": 2,
-    "author": "Автор: Ефимов А.С."
-  },
-  {
-    "question": "Чему равна сумма бесконечно убывающей геометрической прогрессии с первым членом 3 и знаменателем 0.5?",
-    "answers": {
-      "a": "6",
-      "b": "5",
-      "c": "3",
-      "d": "1.5"
-    },
-    "y": "a",
-    "ball": 3,
-    "author": "Автор: Киселёв И.И."
-  },
-  {
-    "question": "Если матрица A имеет обратную, то определитель det(A) равен:",
-    "answers": {
-      "a": "0",
-      "b": "1",
-      "c": "≠ 0",
-      "d": "Меньше 1"
-    },
-    "y": "c",
-    "ball": 3,
-    "author": "Автор: Ковалёва Ю.С."
-  },
-  {
-    "question": "Чему равен предел lim(x→0) (sin(x)/x)?",
-    "answers": {
-      "a": "0",
-      "b": "1",
-      "c": "∞",
-      "d": "Не существует"
-    },
-    "y": "b",
-    "ball": 2,
-    "author": "Автор: Дементий М.П."
-  },
-  {
-    "question": "Какое из следующих утверждений верно для собственных значений симметричной матрицы?",
-    "answers": {
-      "a": "Всегда действительные",
-      "b": "Всегда положительные",
-      "c": "Всегда отрицательные",
-      "d": "Всегда комплексные"
-    },
-    "y": "a",
-    "ball": 3,
-    "author": "Автор: Трофимов О.Н."
-  },
-  {
-    "question": "Какова вероятность вытянуть из колоды одну карту, которая будет тузом (в стандартной 52-карточной колоде)?",
-    "answers": {
-      "a": "1/13",
-      "b": "1/4",
-      "c": "1/52",
-      "d": "1/12"
-    },
-    "y": "a",
-    "ball": 2,
-    "author": "Автор: Горбунова М.В."
-  },
-      {
-  "question": "Найдите производную функции f(x) = ln(x^2 + 1)",
-  "answers": {
-    "a": "1/(x^2 + 1)",
-    "b": "2x/(x^2 + 1)",
-    "c": "ln(2x + 1)",
-    "d": "2x·ln(x^2 + 1)"
-  },
-  "y": "b",
-  "ball": 3,
-  "author": "Автор: Лапшин В.В."
-},
-{
-  "question": "Чему равен интеграл ∫cos(x) dx?",
-  "answers": {
-    "a": "sin(x) + C",
-    "b": "-sin(x) + C",
-    "c": "cos(x) + C",
-    "d": "-cos(x) + C"
-  },
-  "y": "a",
-  "ball": 2,
-  "author": "Автор: Кузнецова Е.Н."
-},
-{
-  "question": "Какое значение имеет выражение 2^3 × 2^4?",
-  "answers": {
-    "a": "2^12",
-    "b": "2^7",
-    "c": "2^1",
-    "d": "2^6"
-  },
-  "y": "b",
-  "ball": 1,
-  "author": "Автор: Чернышев А.Ю."
-},
-{
-  "question": "Какой корень уравнения x^2 - 5x + 6 = 0?",
-  "answers": {
-    "a": "x = 2 и x = 3",
-    "b": "x = 1 и x = 6",
-    "c": "x = -2 и x = -3",
-    "d": "x = 5 и x = 6"
-  },
-  "y": "a",
-  "ball": 2,
-  "author": "Автор: Сорокин М.И."
-},
-{
-  "question": "Решите неравенство: 2x - 3 > 5",
-  "answers": {
-    "a": "x > 4",
-    "b": "x > 3",
-    "c": "x > 5",
-    "d": "x > 2"
-  },
-  "y": "a",
-  "ball": 1,
-  "author": "Автор: Абрамова Л.С."
-},
-{
-  "question": "Что такое дискриминант квадратного уравнения ax^2 + bx + c = 0?",
-  "answers": {
-    "a": "b^2 - 4ac",
-    "b": "a^2 - 4bc",
-    "c": "c^2 - 4ab",
-    "d": "b^2 + 4ac"
-  },
-  "y": "a",
-  "ball": 1,
-  "author": "Автор: Смирнов Е.Д."
-},
-{
-  "question": "Чему равен cos(π)?",
-  "answers": {
-    "a": "-1",
-    "b": "0",
-    "c": "1",
-    "d": "π"
-  },
-  "y": "a",
-  "ball": 2,
-  "author": "Автор: Захарова Т.А."
-},
-{
-  "question": "Чему равна площадь круга радиуса r?",
-  "answers": {
-    "a": "2πr",
-    "b": "πr^2",
-    "c": "πd^2",
-    "d": "πr"
-  },
-  "y": "b",
-  "ball": 1,
-  "author": "Автор: Фомин Г.В."
-},
-{
-  "question": "Сколько решений имеет уравнение sin(x) = 1 в пределах [0, 2π]?",
-  "answers": {
-    "a": "1",
-    "b": "2",
-    "c": "0",
-    "d": "Бесконечно много"
-  },
-  "y": "a",
-  "ball": 2,
-  "author": "Автор: Дьякова С.М."
-},
-{
-  "question": "Чему равен угол между часовой и минутной стрелкой в 3:00?",
-  "answers": {
-    "a": "90°",
-    "b": "45°",
-    "c": "180°",
-    "d": "0°"
-  },
-  "y": "a",
-  "ball": 2,
-  "author": "Автор: Калашников И.С."
-},
-{
-  "question": "Какой следующий член арифметической прогрессии: 3, 7, 11, ...?",
-  "answers": {
-    "a": "13",
-    "b": "14",
-    "c": "15",
-    "d": "16"
-  },
-  "y": "c",
-  "ball": 1,
-  "author": "Автор: Устинов П.В."
-},
-{
-  "question": "Какая функция является чётной?",
-  "answers": {
-    "a": "f(x) = x^2",
-    "b": "f(x) = x^3",
-    "c": "f(x) = x",
-    "d": "f(x) = x^5"
-  },
-  "y": "a",
-  "ball": 2,
-  "author": "Автор: Савина Р.И."
-},
-{
-  "question": "Если f(x) = x^2, то чему равен f(3+h) – f(3)?",
-  "answers": {
-    "a": "6h + h^2",
-    "b": "9h",
-    "c": "3h + h^2",
-    "d": "6h"
-  },
-  "y": "a",
-  "ball": 3,
-  "author": "Автор: Андреев Н.К."
-},
-{
-  "question": "Какое число является решением уравнения log₂(x) = 3?",
-  "answers": {
-    "a": "6",
-    "b": "8",
-    "c": "4",
-    "d": "2"
-  },
-  "y": "b",
-  "ball": 2,
-  "author": "Автор: Игнатьева А.Ф."
-},
-{
-  "question": "Верно ли: e^{ln(5)} = ?",
-  "answers": {
-    "a": "ln(5)",
-    "b": "e^5",
-    "c": "5",
-    "d": "1"
-  },
-  "y": "c",
-  "ball": 2,
-  "author": "Автор: Макаров С.Д."
-}
-
-]
-
-;
-
-    let current = 0;
-    let userAnswers = Array(questions.length).fill(null);
-
-    function renderNav() {
-      qnav.innerHTML = questions.map((_, i) =>
-        `<div class="qnum${i==current ? ' current' : ''}${userAnswers[i] ? ' answered' : ''}" onclick="gotoQ(${i})">${i+1}</div>`
-      ).join('');
-    }
-    function renderQ() {
-      renderNav();
-      const q = questions[current];
-      question.textContent = q.question;
-      if (typeof q.ball !== "undefined") {
-        ball.style.display = '';
-        ball.textContent = `Балл: ${q.ball}`;
-      } else ball.style.display = 'none';
-
-      answers.innerHTML = Object.entries(q.answers).map(
-        ([key, text]) =>
-          `<div class="answer${userAnswers[current]===key ? ' selected' : ''}" onclick="choose('${key}')">
-             <span class="answer-letter">${key.toUpperCase()}</span> ${text}
-           </div>`
-      ).join('');
-      author.textContent = q.author || '';
-      progress.textContent = `${current+1}/${questions.length}`;
-      prevBtn.disabled = current===0;
-      nextBtn.disabled = current===questions.length-1;
-    }
-    function choose(key) {
-      userAnswers[current] = key;
-      renderQ();
-    }
-    function gotoQ(i) { current = i; renderQ(); }
-    function prevQ() { if(current>0){current--; renderQ();} }
-    function nextQ() { if(current<questions.length-1){current++; renderQ();} }
-
-    let sec = 56*60 + 33;
-    setInterval(()=>{
-      if(sec>0){
-        sec--;
-        let m = String(Math.floor(sec/60)).padStart(2,'0');
-        let s = String(sec%60).padStart(2,'0');
-        timer.textContent = `00:${m}:${s}`;
-      }
-    },1000);
-
-    function finish() {
-      qwrap.style.display = 'none';
-      footer.style.display = 'none';
-      document.querySelector('.qnav-wrap').style.display = 'none';
-      document.querySelector('.header .timer').style.display = 'none';
-      document.querySelector('.header .finish-btn').style.display = 'none';
-      let right = 0;
-      let total = 0;
-      let totalEarned = 0;
-      let html = `<h2>Результаты теста</h2>`;
-      questions.forEach((q, i) => {
-        const isOk = userAnswers[i] === q.y;
-        right += isOk ? 1 : 0;
-        let balls = q.ball || 0;
-        total += balls;
-        if (isOk) totalEarned += balls;
-        html += `
-        <div class="res-row">
-          <b>Вопрос ${i+1}:</b> ${q.question}<br>
-          <span class="${isOk?'res-ok':'res-bad'}">
-            ${isOk ? 'Верно!' : 'Неверно!'}
-          </span>
-          <br>
-          Твой ответ: ${userAnswers[i] ? q.answers[userAnswers[i]] : "<i>Не выбран</i>"}<br>
-          Правильный ответ: ${q.answers[q.y]}<br>
-          Балл за вопрос: ${balls}
-        </div>
-        `;
+    // Простое переключение вкладок
+    document.querySelectorAll('.test-nav a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const href = link.getAttribute('href');
+        document.querySelectorAll('.test-nav a').forEach(a => a.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+        link.classList.add('active');
+        document.querySelector(href).classList.add('active');
       });
-      html += `<div class="score">Верных ответов: <b>${right} из ${questions.length}</b><br>Сумма баллов: <b>${totalEarned} из ${total}</b></div>`;
-      results.innerHTML = html;
-      results.style.display = '';
-    }
-
-    renderQ();
+    });
   </script>
 </body>
 </html>
